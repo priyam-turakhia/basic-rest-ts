@@ -35,9 +35,9 @@ export const isOwner = async (req: express.Request, res: express.Response, next:
   try {
 
     const { id } = req.params;
-    const currentUserId = get(req, 'identity._id') as string;
+    const currentUserId = get(req, 'identity._id') as unknown as string;
 
-    if (!currentUserId) {
+    if (!currentUserId || typeof currentUserId !== 'string') {
       return res.sendStatus(400);
     }
 
@@ -53,4 +53,6 @@ export const isOwner = async (req: express.Request, res: express.Response, next:
     return res.sendStatus(400);
     
   }
+
 }
+
